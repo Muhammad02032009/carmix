@@ -1,0 +1,143 @@
+{
+  "users": [
+    {
+      "id": "6ff4",
+      "username": "Muhmmadjon",
+      "email": "arbobzoda.9@gmail.com",
+      "password": "helloworld1"
+    },
+    {
+      "id": "c72c",
+      "username": "Arbobozoda.9",
+      "email": "muhammadarbobzoda@gamil.com",
+      "password": "helloreact17",
+      "confirmPassword": "helloreact17"
+    }
+  ],
+  "cars": [
+    {
+      "id": "37",
+      "brand": "Toyota",
+      "model": "Highlander",
+      "year": 2021,
+      "type": "SUV",
+      "price": 55000,
+      "enginePower": 270,
+      "fuelEfficiency": 15,
+      "image": "/cars/toyota-highlander-2021.jpg",
+      "maxSpeed": 200,
+      "acceleration": 7.5,
+      "weight": 1500
+    },
+    {
+      "id": "38",
+      "brand": "Toyota",
+      "model": "Highlander",
+      "year": 2022,
+      "type": "Electric",
+      "price": 60000,
+      "enginePower": 280,
+      "fuelEfficiency": 17.5,
+      "image": "/cars/toyota-highlander-2022.jpg",
+      "maxSpeed": 200,
+      "acceleration": 7.5,
+      "weight": 1500
+    },
+    {
+      "id": "39",
+      "brand": "Toyota",
+      "model": "Highlander",
+      "year": 2023,
+      "type": "Truck",
+      "price": 65000,
+      "enginePower": 290,
+      "fuelEfficiency": 20,
+      "image": "/cars/toyota-highlander-2023.jpg",
+      "maxSpeed": 200,
+      "acceleration": 7.5,
+      "weight": 1500
+    },
+    {
+      "id": "40",
+      "brand": "Toyota",
+      "model": "Highlander",
+      "year": 2024,
+      "type": "Sports Car",
+      "price": 20000,
+      "enginePower": 100,
+      "fuelEfficiency": 10,
+      "image": "/cars/toyota-highlander-2024.jpg",
+      "maxSpeed": 200,
+      "acceleration": 7.5,
+      "weight": 1500
+    },
+    {
+      "id": "41",
+      "brand": "Toyota",
+      "model": "Prius",
+      "year": 2015,
+      "type": "Hybrid",
+      "price": 25000,
+      "enginePower": 110,
+      "fuelEfficiency": 12.5,
+      "image": "/cars/toyota-prius-2015.jpg",
+      "maxSpeed": 200,
+      "acceleration": 7.5,
+      "weight": 1500
+    },
+    {
+      "id": "42",
+      "brand": "Toyota",
+      "model": "Prius",
+      "year": 2016,
+      "type": "Sedan",
+      "price": 30000,
+      "enginePower": 120,
+      "fuelEfficiency": 15,
+      "image": "/cars/toyota-prius-2016.jpg",
+      "maxSpeed": 200,
+      "acceleration": 7.5,
+      "weight": 1500
+    },
+    {
+      "id": "43",
+      "brand": "Toyota",
+      "model": "Prius",
+      "year": 2017,
+      "type": "SUV",
+      "price": 35000,
+      "enginePower": 130,
+      "fuelEfficiency": 17.5,
+      "image": "/cars/toyota-prius-2017.jpg",
+      "maxSpeed": 200,
+      "acceleration": 7.5,
+      "weight": 1500
+    },
+    {
+      "id": "44",
+      "brand": "Toyota",
+      "model": "Prius",
+      "year": 2018,
+      "type": "Electric",
+      "price": 40000,
+      "enginePower": 140,
+      "fuelEfficiency": 20,
+      "image": "/cars/toyota-prius-2018.jpg",
+      "maxSpeed": 200,
+      "acceleration": 7.5,
+      "weight": 1500
+    },
+    {
+      "id": 1739289942838,
+      "brand": "Toyota",
+      "model": "verso",
+      "year": 2007,
+      "price": 20000,
+      "enginePower": 2432,
+      "fuelEfficiency": 2314,
+      "maxSpeed": 2134,
+      "acceleration": 2314,
+      "weight": 3214
+    }
+  ]
+}

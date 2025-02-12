@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Gauge, Zap, Fuel, Scale, Wind, Menu } from 'lucide-react'
+import { ArrowLeft, Gauge, Zap, Fuel, Scale, Wind } from 'lucide-react'
 import Link from 'next/link'
+import axios from 'axios'
 
 interface Car {
   id: number
@@ -25,13 +26,17 @@ export default function CarPage({ params }: { params: { id: string } }) {
   const [car, setCar] = useState<Car | null>(null)
 
   useEffect(() => {
-    fetch('/db.json')
-      .then(response => response.json())
-      .then(data => {
-        const foundCar = data.cars.find((c: Car) => c.id === parseInt(params.id))
-        setCar(foundCar)
-      })
-  }, [params.id])
+    if (params && params.id) {
+      axios.get('http://localhost:5000/cars')
+        .then(response => {
+          const foundCar = response.data.cars?.find((c: Car) => c.id === parseInt(params.id))
+          setCar(foundCar)
+        })
+        .catch(error => {
+          console.error('Error fetching car data:', error)
+        })
+    }
+  }, [params?.id])
 
   if (!car) {
     return (
@@ -116,4 +121,3 @@ export default function CarPage({ params }: { params: { id: string } }) {
     </div>
   )
 }
-
