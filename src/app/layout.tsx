@@ -3,9 +3,9 @@ import "./globals.css";
 import Header from "./components/header/header";
 import Footer from "./components/footer/footer";
 import { Suspense } from "react";
-import Loader from "./components/loader/Loader";
 import ReduxProvider from "@/shared/providers/ReduxProvider";
 import { ThemeProvider } from "./components/theme-provider/theme-provider";
+import Loading from "./components/loader/Loader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,7 +32,7 @@ export default function RootLayout({
           <div className="min-h-screen bg-white dark:bg-gray-950 text-black dark:text-white">
             <ReduxProvider>
               <Header />
-              <Suspense fallback={<Loader />}>
+              <Suspense fallback={<Loading />}>
                 <main>{children}</main>
               </Suspense>
               <Footer />

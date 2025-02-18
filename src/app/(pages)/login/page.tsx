@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { setLoggedUser } from "@/shared/store/slices/adminSlice";
 import { useDispatch } from "react-redux";
+import Loading from "@/app/components/loader/Loader";
 
 const loginSchema = z.object({
   userName: z.string().min(3, "Username must be at least 3 characters"),
@@ -32,6 +33,7 @@ export default function Login() {
   const [loginError, setLoginError] = useState<string | null>(null);
   const router = useRouter();
   const dispatch = useDispatch();
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -66,7 +68,7 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      const response = await axios.get(`http://localhost:5000/users`);
+      const response = await axios.get(`http://localhost:7000/users`);
       const users = response.data;
       const user = users.find(
         (u: any) =>
@@ -172,7 +174,9 @@ export default function Login() {
                 className="w-full bg-yellow-500 text-black font-bold py-2 rounded-lg hover:bg-yellow-600 transition"
                 disabled={isLoading}
               >
-                {isLoading ? "Logging in..." : "Login"}
+                {isLoading ? (<Loading/> ) : (
+                  "Login"
+                )}
               </Button>
             </form>
 

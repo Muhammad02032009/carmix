@@ -1,19 +1,21 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { useRouter } from "next/navigation"
-import { z } from "zod"
-import axios from "axios"
-import { Lock, Mail, User, Eye, EyeOff } from "lucide-react"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { z } from "zod";
+import axios from "axios";
+import { Lock, Mail, User, Eye, EyeOff } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Loading from "@/app/components/loader/Loader";
 
 const registerSchema = z
   .object({
+    id:z.string(),
     username: z.string().min(3, "Username must be at least 3 characters long"),
     email: z.string().email("Invalid email address"),
     password: z
@@ -26,64 +28,78 @@ const registerSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
-  })
+  });
 
-type RegisterFormData = z.infer<typeof registerSchema>
+type RegisterFormData = z.infer<typeof registerSchema>;
 
 export default function Register() {
   const [formData, setFormData] = useState<RegisterFormData>({
+    id:"",
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
-  })
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [errors, setErrors] = useState<Partial<RegisterFormData>>({})
-  const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errors, setErrors] = useState<Partial<RegisterFormData>>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-    setErrors((prev) => ({ ...prev, [name]: "" }))
-  }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: "" }));
+  };
 
   const validateForm = (): boolean => {
     try {
-      registerSchema.parse(formData)
-      setErrors({})
-      return true
+      registerSchema.parse(formData);
+      setErrors({});
+      return true;
     } catch (error) {
       if (error instanceof z.ZodError) {
-        const newErrors: Partial<RegisterFormData> = {}
+        const newErrors: Partial<RegisterFormData> = {};
         error.errors.forEach((err) => {
           if (err.path[0] as keyof RegisterFormData) {
-            newErrors[err.path[0] as keyof RegisterFormData] = err.message
+            newErrors[err.path[0] as keyof RegisterFormData] = err.message;
           }
-        })
-        setErrors(newErrors)
+        });
+        setErrors(newErrors);
       }
-      return false
+      return false;
     }
-  }
+  };
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (!validateForm()) return
+    e.preventDefault();
+    if (!validateForm()) return;
 
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      await axios.post(`http://localhost:5000/users`, formData)
-      alert("✅ Registration successful!")
-      router.push("/admin")
+      const newUser = {
+        id: formData.email,
+        name: formData.username,
+        email: formData.email,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+      };
+
+      await axios.post(`http://localhost:7000/users`, newUser);
+      alert("✅ Registration successful!");
+      router.push("/admin");
     } catch (error) {
-      console.error("Registration error:", error)
-      alert("❌ Registration failed. Please try again.")
+      if (axios.isAxiosError(error) && error.response) {
+        console.error("Registration error:", error.response.data);
+        alert("❌ Registration failed. Please try again.");
+      } else {
+        console.error("Unknown error:", error);
+        alert("❌ Registration failed. Unknown error.");
+      }
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-800 via-gray-900 to-black">
@@ -115,7 +131,9 @@ export default function Register() {
                     className="pl-10 bg-gray-800 text-white border-gray-700 focus:ring-yellow-500"
                   />
                 </div>
-                {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
+                {errors.username && (
+                  <p className="text-red-500 text-sm">{errors.username}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -132,7 +150,9 @@ export default function Register() {
                     className="pl-10 bg-gray-800 text-white border-gray-700 focus:ring-yellow-500"
                   />
                 </div>
-                {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+                {errors.email && (
+                  <p className="text-red-500 text-sm">{errors.email}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -153,10 +173,16 @@ export default function Register() {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
                   >
-                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    {showPassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
                   </button>
                 </div>
-                {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+                {errors.password && (
+                  <p className="text-red-500 text-sm">{errors.password}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -177,10 +203,18 @@ export default function Register() {
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
                   >
-                    {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    {showConfirmPassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
                   </button>
                 </div>
-                {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
+                {errors.confirmPassword && (
+                  <p className="text-red-500 text-sm">
+                    {errors.confirmPassword}
+                  </p>
+                )}
               </div>
 
               <Button
@@ -188,7 +222,7 @@ export default function Register() {
                 className="w-full bg-yellow-500 text-black font-bold py-2 rounded-lg hover:bg-yellow-600 transition"
                 disabled={isLoading}
               >
-                {isLoading ? "Registering..." : "Register"}
+                {isLoading ? <Loading /> : "Sign up"}
               </Button>
             </form>
 
@@ -204,6 +238,5 @@ export default function Register() {
         </Card>
       </motion.div>
     </div>
-  )
+  );
 }
-

@@ -69,10 +69,10 @@ function HeroSection() {
           transition={{ duration: 0.5, delay: 0.4 }}
         >
           <Link
-            href="#explore"
+            href="/cars"
             className="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 inline-flex items-center text-xl"
           >
-            Rev Your Engines <ArrowRight className="ml-2" />
+            All cars <ArrowRight className="ml-2" />
           </Link>
         </motion.div>
       </div>

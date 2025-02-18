@@ -1,10 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
-import adminReducer from './slices/adminSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+import adminReducer from "./slices/adminSlice";
+import cartReducer from "./slices/cartSlice";
+import carMoviesReducer from "./slices/moviesSlice";
 
 export const store = configureStore({
   reducer: {
     admin: adminReducer,
+    cart: cartReducer,
+    movies: carMoviesReducer,
   },
 });
 
